@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LearnSphere AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #4A55A2;
+            --primary-purple: #7858A6;
+            --light-gray: #F5F7FA;
+            --dark-text: #1E293B;
+            --light-text: #64748B;
+            --white: #FFFFFF;
+            --border-color: #E2E8F0;
+            --radius: 0.75rem;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        .login-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            min-height: 700px;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+        }
+        .info-panel {
+            flex: 1;
+            padding: 4rem;
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .info-content .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .info-content .description {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 400px;
+        }
+        .info-footer img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: var(--radius);
+            margin-top: 2rem;
+        }
+        .form-panel {
+            flex: 1;
+            padding: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-content {
+            width: 100%;
+            max-width: 360px;
+        }
+        .form-content .title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .form-content .subtitle {
+            color: var(--light-text);
+            margin-bottom: 2.5rem;
+        }
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 1rem;
+        }
+        .signin-btn {
+            width: 100%;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 0.85rem;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .signin-btn:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+        .signup-link {
+            margin-top: 1.5rem;
+            text-align: center;
+            color: var(--light-text);
+        }
+        .signup-link a {
+            color: var(--primary-blue);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .message {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            min-height: 24px;
+        }
+        .message.error {
+            color: #DC2626;
+        }
+        .message.success {
+            color: #16A34A;
+        }
+        @media (max-width: 992px) {
+            .login-container {
+                flex-direction: column;
+                min-height: auto;
+                max-width: 500px;
+            }
+            .info-panel, .form-panel {
+                padding: 2.5rem;
+            }
+            .info-content .title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="info-panel">
+            <div class="info-content">
+                <h1 class="title">Welcome Back to LearnSphere</h1>
+                <p class="description">Sign in to continue your personalized learning journey and track your progress with our intelligent platform.</p>
+            </div>
+            <div class="info-footer"><img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop" alt="Students collaborating"></div>
+        </div>
+        <div class="form-panel">
+            <div class="form-content">
+                <h1 class="title">Sign In</h1>
+                <p class="subtitle">Enter your credentials to access your account.</p>
+                <div id="message-area" class="message"></div>
+                <form id="login-form">
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter your email address" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" id="submit-btn" class="signin-btn">Sign In</button>
+                </form>
+                <p class="signup-link">
+                    Don't have an account? <a href="signup.html">Sign up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- This new script connects your page directly to Firebase -->
+    <script type="module">
+        // Import the functions you need from the Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // ******* PASTE YOUR FIREBASE CONFIG HERE *******
+        const firebaseConfig = {
+            apiKey: "AIzaSyCNeqsxJ9Go7npeRM6tjZVgw9OHxe8YBDE",
+            authDomain: "studentengagementplatform.firebaseapp.com",
+            projectId: "studentengagementplatform",
+            storageBucket: "studentengagementplatform.firebasestorage.app",
+            messagingSenderId: "345213055032",
+            appId: "1:345213055032:web:60b3bb9c7b60b0c45bf6cd",
+            measurementId: "G-2C3XTF6R4S"
+        };
+
+        // *************************************************
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Get references to the HTML elements
+        const loginForm = document.getElementById('login-form');
+        const messageArea = document.getElementById('message-area');
+        const submitBtn = document.getElementById('submit-btn');
+
+        loginForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Signing In...';
+            messageArea.textContent = '';
+
+            try {
+                // 1. SIGN THE USER IN WITH FIREBASE AUTHENTICATION
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // 2. UPDATE THE LAST LOGIN TIME IN THE DATABASE
+                // This is a critical step for your engagement tracking!
+                const userDocRef = doc(db, "users", user.uid);
+                await updateDoc(userDocRef, {
+                    "activity.last_login": new Date().toISOString()
+                });
+
+                // 3. SHOW SUCCESS AND REDIRECT TO THE MAIN DASHBOARD
+                messageArea.textContent = 'Login successful! Redirecting...';
+                messageArea.className = 'message success';
+
+                setTimeout(() => {
+                    // Redirect to your main application page
+                    window.location.href = 'index.html'; 
+                }, 1500);
+
+            } catch (error) {
+                // Handle errors from Firebase (e.g., wrong password, user not found)
+                messageArea.textContent = error.message;
+                messageArea.className = 'message error';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Sign In';
+            }
+        });
+    </script>
+</body>
+</html>
+
